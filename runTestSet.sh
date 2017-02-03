@@ -3,25 +3,29 @@
 EX_TIME="1920" # 30 + 2 mins
 URL="blade131"
 PORT="8080"
-ROOT_RESULT_FOLDER="results/${1}"
-NEO4J_HOME="neo4jHome"
+ROOT_RESULT_FOLDER="$(pwd)/results/${1}"
+NEO4J_HOME="/ssd/dburgos/dataset/factor1/social_network_3/neo4j-enterprise-2.2.0/"
 
-SUBSTITUTION_PARAMETERS="/local/dburgos/benchmarks/benchmark-ldbc/dataset/factor1/social_network_3/substitution_parameters/"
-COMMENT_CSV="/local/dburgos/benchmarks/benchmark-ldbc/dataset/factor1/social_network_3/social_network/comment_0_0.csv"
-POST_CSV="/local/dburgos/benchmarks/benchmark-ldbc/dataset/factor1/social_network_3/social_network/post_0_0.csv"
-PERSON_CSV="/local/dburgos/benchmarks/benchmark-ldbc/dataset/factor1/cd social_network_3/social_network/person_0_0.csv"
-UPDATE_PERSON_CSV="/local/dburgos/benchmarks/benchmark-ldbc/dataset/factor1/social_network_3/social_network/updateStream_0_0_person.csv"
-UPDATE_FORUM_CSV="/local/dburgos/benchmarks/benchmark-ldbc/dataset/factor1/social_network_3/social_network/updateStream_0_0_forum.csv"
+SOCIAL_NETWORK="/ssd/dburgos/jmeter/dataset/factor1/social_network_3/"
+
+SUBSTITUTION_PARAMETERS="${SOCIAL_NETWORK}/social_network_3/substitution_parameters/"
+COMMENT_CSV="${SOCIAL_NETWORK}/social_network_3/social_network/comment_0_0.csv"
+POST_CSV="${SOCIAL_NETWORK}/social_network/post_0_0.csv"
+PERSON_CSV="${SOCIAL_NETWORK}/social_network/person_0_0.csv"
+UPDATE_PERSON_CSV="${SOCIAL_NETWORK}/social_network/updateStream_0_0_person.csv"
+UPDATE_FORUM_CSV="${SOCIAL_NETWORK}/social_network/updateStream_0_0_forum.csv"
+
 PARAMETER_FILES="$SUBSTITUTION_PARAMETERS $COMMENT_CSV $POST_CSV $PERSON_CSV $UPDATE_PERSON_CSV $UPDATE_FORUM_CSV"
 
-for wl in 25,75 50,50 75,25 90,10
+#for wl in 25,75 50,50 75,25 90,10
+for wl in 90,10
 do
     reads=$(echo $wl | cut -f1 -d,)
     writes=$(echo $wl | cut -f2 -d,)
     echo ${workload[0]}
-    for cl in 1 2 4 6 8 10 12 24 36 48
+    for cl in 1 4 8 12 24 36 48
     do
-        for th in 100 200 300 400 500 600
+        for th in 50 100 150 200 250 300 350 400
         do
             echo "Workload <$reads, $writes> -- $cl clients -- $th throughput"
             RESULTS_FOLDER="$ROOT_RESULT_FOLDER/${reads}reads${writes}writes/${cl}clients/"

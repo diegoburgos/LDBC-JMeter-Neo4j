@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#UI="-n"
+UI="-n"
 
 if [ "$#" -ne 15 ]; then
     echo "Usage: $0 neo4j_home nusers exTime url port result substitution_parameters
@@ -9,9 +9,13 @@ if [ "$#" -ne 15 ]; then
     exit 1
 fi
 
-JMETER_HOME="/home/dburgos/neo4j-versioning-2y/benchmarks/jmeter/software/apache-jmeter-3.1/"
+#JMETER_HOME="/home/dburgos/neo4j-versioning-2y/benchmarks/jmeter/software/apache-jmeter-3.1/"
+JMETER_HOME="/ssd/dburgos/jmeter/apache-jmeter-3.1"
 JMETER=$JMETER_HOME/bin/jmeter
-JMETER_TEST_PLAN="/home/dburgos/neo4j-versioning-2y/benchmarks/jmeter/Testing.jmx"
+#JMETER_TEST_PLAN="/home/dburgos/neo4j-versioning-2y/benchmarks/jmeter/Testing.jmx"
+JMETER_TEST_PLAN="/ssd/dburgos/jmeter/LDBC-JMeter-Neo4j/Testing.jmx"
+SERVER=blade131
+
 
 NUSERS_ARG="nusers"
 EX_TIME_ARG="exTime"
@@ -60,17 +64,11 @@ ARGS="$ARGS -J${P_UPDATES_ARG}=$P_UPDATES"
 ARGS="$ARGS -J${TARGET_ARG}=$TARGET"
 
 function runDatabase {
-    current_wd=$(pwd)
-    cd $NEO4J_HOME
-    bin/neo4j start
-    cd $current_wd
+    ssh $SERVER "$NEO4J_HOME/bin/neo4j start"
 }
 
 function stopDatabase {
-    current_wd=$(pwd)
-    cd $NEO4J_HOME
-    bin/neo4j stop
-    cd $current_wd
+    ssh $SERVER "$NEO4J_HOME/bin/neo4j stop"
 }
 
 
@@ -78,31 +76,34 @@ monitor () {
     MONITORING_INTERVAL=5
     echo "Monitoring $1"
     if [ $1 == "localhost" ]; then
-        mkdir -p ${P}
-        vmstat $MONITORING_INTERVAL > ${1}/vmstat.txt &
-        iostat -x $MONITORING_INTERVAL > ${1}/iostat.txt &
+        vmstat $MONITORING_INTERVAL > ${2}/${1}-vmstat.txt &
+        # iostat -x $MONITORING_INTERVAL > ${2}/${1}-iostat.txt &
     else
-        ssh $1 "mkdir -p ${P}"
-        ssh $1 "vmstat $MONITORING_INTERVAL > ${1}/vmstat.txt &"
-        ssh $1 "iostat -x $MONITORING_INTERVAL > ${1}/iostat.txt &"
+       ssh $1 "mkdir -p $2"
+       ssh $1 "vmstat $MONITORING_INTERVAL > ${2}/${1}-vmstat.txt &"
+       ssh $1 "iostat -x $MONITORING_INTERVAL > ${2}/${1}-iostat.txt &"
     fi
 }
 
 stop_monitoring () {
-      if [ $1 == "localhost" ]; then
+    if [ $1 == "localhost" ]; then
         killall vmstat iostat
     else
         ssh $1 killall vmstat iostat
     fi
-        echo "Stopped monitoring $1"
+    echo "Stopped monitoring $1"
 }
 
-#runDatabase
-#sleep 10
-#monitor $RESULTS
+runDatabase
+sleep 10
+monitor localhost $RESULTS
+monitor $SERVER $RESULTS
 
-echo "$JMETER $UI -t $JMETER_TEST_PLAN $ARGS"
+$JMETER $UI -t $JMETER_TEST_PLAN $ARGS
 
-#stop_monitoring
-#sleep 10
-#stopDatabase
+stop_monitoring localhost
+stop_monitoring $SERVER
+stopDatabase
+sleep 10
+
+scp $SERVER:$RESULTS/*txt $RESULTS/
