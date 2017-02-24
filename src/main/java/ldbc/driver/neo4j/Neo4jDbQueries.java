@@ -23,7 +23,6 @@ import ldbc.driver.ShortOperation;
 import ldbc.driver.UpdateOperation;
 import ldbc.driver.util.DbHelper;
 import ldbc.queries.shortQueries.ShortQueryParameterProvider;
-import ldbc.queries.updateQueries.UpdateQuery;
 
 /**
  * An implementation of the LDBC SNB interactive workload[1] for Neo4j. Queries

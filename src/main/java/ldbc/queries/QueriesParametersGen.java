@@ -5,16 +5,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.LineNumberReader;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 import ldbc.driver.neo4j.Neo4jDbQueries;
 import ldbc.driver.neo4j.Organization;
 import ldbc.queries.largeQueries.LargeQueryParametersProvider;
 import ldbc.queries.shortQueries.ShortQueryParameterProvider;
 import ldbc.queries.updateQueries.UpdateQueriesFactory;
-import ldbc.queries.updateQueries.UpdateQuery;
 import ldbc.queries.updateQueries.UpdateQueryParametersProvider;
 
 import org.apache.jmeter.config.Arguments;
@@ -23,6 +25,10 @@ import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
 public class QueriesParametersGen extends AbstractJavaSamplerClient implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static String MAX_PARAMETERS = "max_parameters";
     private final static String SUBSTITUTION_PARAMETERS = "substitution_parameters";
 	private final static String COMMENT_CSV = "comment_csv";
@@ -108,7 +114,7 @@ public class QueriesParametersGen extends AbstractJavaSamplerClient implements S
 		personIds = new ShortQueryParameterProvider(getIds(context.getParameter(PERSON_CSV)));
 		commentIds = new ShortQueryParameterProvider(getIds(context.getParameter(COMMENT_CSV)));
 		postIds = new ShortQueryParameterProvider(getIds(context.getParameter(POST_CSV)));
-		this.updates = getUpdateParameters (context.getParameter(UPDATE_PERSON_CSV), context.getParameter(UPDATE_FORUM_CSV));
+		updates = getUpdateParameters (context.getParameter(UPDATE_PERSON_CSV), context.getParameter(UPDATE_FORUM_CSV));
 
         System.out.println(params);
         System.out.println(updates);
@@ -136,13 +142,16 @@ public class QueriesParametersGen extends AbstractJavaSamplerClient implements S
 				line = br.readLine();
 			}
 		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				br.close();
 			} catch (IOException e) {
+				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -182,13 +191,16 @@ public class QueriesParametersGen extends AbstractJavaSamplerClient implements S
                 i++;
 			}
 		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				br.close();
 			} catch (IOException e) {
+				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -259,13 +271,16 @@ public class QueriesParametersGen extends AbstractJavaSamplerClient implements S
 				line = br.readLine();
 			}
 		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				br.close();
 			} catch (IOException e) {
+				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -293,13 +308,16 @@ public class QueriesParametersGen extends AbstractJavaSamplerClient implements S
 				line = br.readLine();
 			}
 		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				br.close();
 			} catch (IOException e) {
+				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -307,23 +325,24 @@ public class QueriesParametersGen extends AbstractJavaSamplerClient implements S
 	}
 
 	private int countLines (String file) {
-		LineNumberReader lnr = null;
 		int totalLines = -1;
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
-			String line;
-			while ((line = br.readLine()) != null) {
+			while (br.readLine() != null) {
 				totalLines++;
 			}
 		} catch (FileNotFoundException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				br.close();
 			} catch (IOException e) {
+				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
 		}

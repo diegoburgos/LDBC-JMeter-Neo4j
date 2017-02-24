@@ -1,6 +1,5 @@
 package ldbc.queries.updateQueries;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class UpdateQueryParametersProvider {
@@ -34,13 +33,13 @@ public class UpdateQueryParametersProvider {
                 + " arguments\n\t{ " + Arrays.toString(properties) + " }, "
                 + " \n\tvalues : {" + argumentsToText() + " } ]";*/
 	}
-	private String argumentsToText() {
+	/*private String argumentsToText() {
         String ret = " [ ";
         for (Object[] ob : arguments) {
             ret += "\n\t\t" + Arrays.toString(ob) + ", ";
         }
         return ret + " ]";
-    }
+    }*/
 
     public String[] getProperties() {
         return properties;

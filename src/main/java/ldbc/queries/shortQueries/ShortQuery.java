@@ -12,6 +12,10 @@ import org.apache.jmeter.samplers.SampleResult;
 import com.sun.jersey.api.client.ClientResponse;
 
 public class ShortQuery extends JMeterQuery {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Neo4jDbConnectionState connection = null;
 	private ShortOperation query = null;
 	private ShortQueryParameterProvider personIds, commentIds, postIds;

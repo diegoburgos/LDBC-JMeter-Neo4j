@@ -14,6 +14,10 @@ import com.sun.jersey.api.client.ClientResponse;
 import java.util.Arrays;
 
 public class UpdateQuery extends JMeterQuery {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Neo4jDbConnectionState connection = null;
 	private UpdateOperation query = null;
 	private UpdateQueryParametersProvider parametersProvider;
