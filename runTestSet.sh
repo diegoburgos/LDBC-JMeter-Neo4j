@@ -5,10 +5,10 @@ URL="blade131"
 PORT="8080"
 ROOT_RESULT_FOLDER="$(pwd)/results/${1}"
 #NEO4J_HOME="/ssd/dburgos/dataset/factor1/social_network_3/neo4j-enterprise-2.2.0/"
-#NEO4J_HOME="/ssd/dburgos/dataset/factor10/social_network_1/neo4j-enterprise-2.2.0/"
 NEO4J_HOME="/ssd/dburgos/dataset/factor3/social_network_1/neo4j-enterprise-2.2.0/"
+#NEO4J_HOME="/ssd/dburgos/dataset/factor10/social_network_1/neo4j-enterprise-2.2.0/"
 
-SOCIAL_NETWORK="/ssd/dburgos/jmeter/dataset/factor1/social_network_3/"
+SOCIAL_NETWORK="/ssd/dburgos/jmeter/dataset/factor3/social_network_1/"
 
 SUBSTITUTION_PARAMETERS="${SOCIAL_NETWORK}/substitution_parameters/"
 COMMENT_CSV="${SOCIAL_NETWORK}/social_network/comment_0_0.csv"
@@ -25,8 +25,8 @@ do
     reads=$(echo $wl | cut -f1 -d,)
     writes=$(echo $wl | cut -f2 -d,)
     echo ${workload[0]}
-    #for th in 50 100 150 200 30 10
-    for th in 10
+    #for th in 50 100 150 80 120 200 30 10
+    for th in 80 120 200 30 10 50 100 150
     do
         for cl in 24 12 8 4 2 1 36 48
         do
