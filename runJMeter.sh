@@ -3,18 +3,16 @@
 UI="-n"
 
 if [ "$#" -ne 15 ]; then
-    echo "Usage: $0 neo4j_home nusers exTime url port result substitution_parameters
+    echo "Usage: $0 neo4j_home nusers exTime server port result substitution_parameters
             comment_csv post_csv person_csv update_person_csv update_forum_csv pReads pUpdates target"
     echo "Arguments used: $@"
     exit 1
 fi
 
-#JMETER_HOME="/home/dburgos/neo4j-versioning-2y/benchmarks/jmeter/software/apache-jmeter-3.1/"
-JMETER_HOME="/ssd/dburgos/jmeter/apache-jmeter-3.1"
+HOME_FOLDER="/ssd/leandata/neo4j/"
+JMETER_HOME="${HOME_FOLDER}/jmeter/apache-jmeter-3.1"
 JMETER=$JMETER_HOME/bin/jmeter
-#JMETER_TEST_PLAN="/home/dburgos/neo4j-versioning-2y/benchmarks/jmeter/Testing.jmx"
-JMETER_TEST_PLAN="/ssd/dburgos/jmeter/LDBC-JMeter-Neo4j/Testing.jmx"
-SERVER=blade131
+JMETER_TEST_PLAN="${HOME_FOLDER}/jmeter/LDBC-JMeter-Neo4j/Testing.jmx"
 
 
 NUSERS_ARG="nusers"
@@ -35,7 +33,7 @@ TARGET_ARG="target"
 NEO4J_HOME=$1
 NUSERS=$2
 EX_TIME=$3
-URL=$4
+SERVER=$4
 PORT=$5
 RESULTS=$6
 SUBSTITUTION_PARAMETERS=$7
@@ -50,7 +48,7 @@ TARGET=${15}
 
 ARGS="-J${EX_TIME_ARG}=$EX_TIME"
 ARGS="$ARGS -J${NUSERS_ARG}=$NUSERS"
-ARGS="$ARGS -J${URL_ARG}=$URL"
+ARGS="$ARGS -J${URL_ARG}=$SERVER"
 ARGS="$ARGS -J${PORT_ARG}=$PORT"
 ARGS="$ARGS -J${RESULT_ARGS}=$RESULTS"
 ARGS="$ARGS -J${SUBSTITUTION_PARAMETERS_ARG}=$SUBSTITUTION_PARAMETERS"
@@ -72,10 +70,10 @@ function stopDatabase {
 }
 
 function restoreDBStorage {
-    #echo "Restoring OR Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_index.tar.gz"
-    #ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db && tar -zxf ${NEO4J_HOME}/data/graph.db_index.tar.gz -C ${NEO4J_HOME}/data/"
-    echo "Restoring -SI- Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_v_index.tar.gz"
-    ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db_v && tar -zxf ${NEO4J_HOME}/data/graph.db_v_index.tar.gz -C ${NEO4J_HOME}/data/"
+    echo "Restoring OR Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_index.tar.gz"
+    ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db && tar -zxf ${NEO4J_HOME}/data/graph.db_index.tar.gz -C ${NEO4J_HOME}/data/"
+    #echo "Restoring -SI- Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_v_index.tar.gz"
+    #ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db_v && tar -zxf ${NEO4J_HOME}/data/graph.db_v_index.tar.gz -C ${NEO4J_HOME}/data/"
 }
 
 monitor () {
