@@ -11,3 +11,8 @@ To change from Neo4j-SI to Neo4j-OR you've to:
 	- data/graph.db & data/graph.db_v
 	- lib/neo4j-kernel-2.2.0.jar & lib/neo4j-kernel-2.2.0-v1.6.1
 - runJMeter.sh -> recovery
+
+## Executed tests:
+| Neo4j version | Target throughputs   | Workloads   | Clients             |
+|---------------|----------------------|-------------|---------------------|
+| SI OR         | 10 30 50 100 150 200 | 90,10 50,50 | 1 2 4 8 12 24 36 48 |
