@@ -20,15 +20,15 @@ UPDATE_FORUM_CSV="${SOCIAL_NETWORK}/social_network/updateStream_0_0_forum.csv"
 PARAMETER_FILES="$SUBSTITUTION_PARAMETERS $COMMENT_CSV $POST_CSV $PERSON_CSV $UPDATE_PERSON_CSV $UPDATE_FORUM_CSV"
 
 #for wl in 25,75 50,50 75,25 90,10
-for wl in 90,10
+for wl in 50,50
 do
     reads=$(echo $wl | cut -f1 -d,)
     writes=$(echo $wl | cut -f2 -d,)
     echo ${workload[0]}
     #for th in 50 100 150 80 120 200 30 10
-    for th in 80 120 200 30 10 50 100 150
+    for th in 50 100 150 200 250 300 350 400
     do
-        for cl in 24 12 8 4 2 1 36 48
+        for cl in 1 4 8 12 24 36 48
         do
             echo "Workload <$reads, $writes> -- $cl clients -- $th throughput"
             RESULTS_FOLDER="$ROOT_RESULT_FOLDER/${reads}reads${writes}writes/${cl}clients/${th}target/"

@@ -72,10 +72,10 @@ function stopDatabase {
 }
 
 function restoreDBStorage {
-    #echo "Restoring OR Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_index.tar.gz"
-    #ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db && tar -zxf ${NEO4J_HOME}/data/graph.db_index.tar.gz -C ${NEO4J_HOME}/data/"
-    echo "Restoring -SI- Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_v_index.tar.gz"
-    ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db_v && tar -zxf ${NEO4J_HOME}/data/graph.db_v_index.tar.gz -C ${NEO4J_HOME}/data/"
+    echo "Restoring OR Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_index.tar.gz"
+    ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db && tar -zxf ${NEO4J_HOME}/data/graph.db_index.tar.gz -C ${NEO4J_HOME}/data/"
+    #echo "Restoring -SI- Neo4j DB ${NEO4J_HOME}/data/graph.db using ${NEO4J_HOME}/data/graph.db_v_index.tar.gz"
+    #ssh $SERVER "rm -rf ${NEO4J_HOME}/data/graph.db_v && tar -zxf ${NEO4J_HOME}/data/graph.db_v_index.tar.gz -C ${NEO4J_HOME}/data/"
 }
 
 monitor () {
